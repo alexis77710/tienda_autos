@@ -1,0 +1,60 @@
+/* Fondo oscuro igual al Navbar */
+.footer-custom {
+    background-color: #1a1a1a;
+    color: #b0b0b0; /* Un gris claro para el texto, cansa menos la vista que el blanco puro */
+    font-size: 0.9rem;
+}
+
+/* Título de la marca */
+.footer-brand {
+    color: #f0f0f0;
+    font-weight: bold;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+}
+
+/* Títulos de secciones (Navegación, Contacto) */
+.section-title {
+    color: #e74c3c; /* El rojo de tu marca */
+    font-weight: 600;
+    margin-bottom: 1.2rem;
+}
+
+/* Enlaces */
+.footer-link {
+    color: #b0b0b0;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Hover en enlaces (se ponen blancos al pasar el mouse) */
+.footer-link:hover {
+    color: #ffffff;
+    padding-left: 5px; /* Pequeño movimiento a la derecha */
+}
+
+/* Iconos sociales */
+.social-icons a {
+    color: #f0f0f0;
+    font-size: 1.5rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.social-icons a:hover {
+    color: #e74c3c;
+    transform: scale(1.2); /* Crecen un poquito */
+}
+
+/* Línea divisoria */
+.footer-divider {
+    border-color: #444;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.footer-copy {
+    font-size: 0.8rem;
+    color: #666;
+}

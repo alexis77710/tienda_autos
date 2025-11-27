@@ -1,0 +1,85 @@
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      
+      <div class="card shadow-lg border-0 rounded-lg">
+        <div class="card-header bg-dark text-white text-center py-4">
+          <h3 class="mb-0 fw-bold"><i class="bi bi-car-front"></i> {{ titulo }}</h3>
+        </div>
+        
+        <div class="card-body p-5">
+          
+          <form #productoForm="ngForm" (ngSubmit)="guardarProducto(productoForm)">
+
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="marca" #marca="ngModel" 
+                     [(ngModel)]="producto.marca" required placeholder="Ej: Toyota">
+              <label>Marca</label>
+              @if (marca.touched && !marca.valid) {
+                <small class="text-danger">La marca es obligatoria</small>
+              }
+            </div>
+
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="modelo" #modelo="ngModel" 
+                     [(ngModel)]="producto.modelo" required placeholder="Ej: Fortuner">
+              <label>Modelo</label>
+              @if (modelo.touched && !modelo.valid) {
+                <small class="text-danger">El modelo es obligatorio</small>
+              }
+            </div>
+
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="number" class="form-control" name="precio" #precio="ngModel" 
+                         [(ngModel)]="producto.precio" required placeholder="Precio">
+                  <label>Precio ($)</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="number" class="form-control" name="anio" #anio="ngModel" 
+                         [(ngModel)]="producto.anio" required placeholder="Año">
+                  <label>Año</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-floating mb-4">
+              <input type="text" class="form-control" name="kilometraje" #kilometraje="ngModel" 
+                     [(ngModel)]="producto.kilometraje" required placeholder="0 km">
+              <label>Kilometraje</label>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label fw-bold text-secondary">Fotografía del Vehículo</label>
+              
+              @if (producto.imagen) {
+                <div class="mb-2 text-center img-preview-container">
+                  <img [src]="url + 'get-imagen/' + producto.imagen" class="img-thumbnail" style="max-height: 150px;">
+                  <p class="text-muted small">Imagen actual</p>
+                </div>
+              }
+
+              <input type="file" class="form-control" (change)="imagenChangeEvent($event)">
+            </div>
+
+            <div class="d-grid gap-2">
+              <input type="submit" value="{{ titulo }}" class="btn btn-primary btn-lg" 
+                     [disabled]="!productoForm.form.valid">
+            </div>
+
+          </form>
+        </div>
+        
+        <div class="card-footer text-center py-3 bg-light">
+          <a routerLink="/productos" class="text-decoration-none text-secondary">
+            <i class="bi bi-arrow-left"></i> Volver al listado
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,34 @@
+/* Efecto al pasar el mouse por encima de la tarjeta */
+.car-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none; /* Quitamos el borde feo por defecto */
+}
+
+.car-card:hover {
+    transform: translateY(-5px); /* Se levanta un poquito */
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important; /* Sombra más fuerte */
+}
+
+/* Contenedor de la imagen para asegurar el tamaño */
+.img-wrapper {
+    height: 200px; /* Altura fija para todas las fotos */
+    overflow: hidden;
+}
+
+/* La imagen en sí */
+.card-img-top {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* CLAVE: La imagen llena el cuadro sin estirarse raro */
+    transition: transform 0.5s ease;
+}
+
+/* Efecto zoom suave en la foto al pasar el mouse */
+.car-card:hover .card-img-top {
+    transform: scale(1.1);
+}
+
+/* Ajuste del texto */
+.card-text {
+    font-size: 0.9rem;
+}
