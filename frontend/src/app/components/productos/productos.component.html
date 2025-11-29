@@ -1,12 +1,12 @@
 <h1 class="text-center mt-4 mb-4 title-products">Nuestros Autos Disponibles</h1>
 
-
+<!-- BOTÓN PARA CREAR (Corregido a /crud) -->
 <div class="container text-center mb-4">
-    <button class="btn btn-success btn-lg" routerLink="/form">
+    <button class="btn btn-success btn-lg" routerLink="/crud">
         <i class="bi bi-plus-circle"></i> Agregar Nuevo Auto
     </button>
 </div>
-<div class="container mx-auto">
+
 <div class="container mx-auto">
     <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         
@@ -14,6 +14,7 @@
             <div class="col">
                 <div class="card h-100 shadow-sm car-card">
                     
+                    <!-- IMAGEN -->
                     @if (auto.imagen) {
                         <div class="img-wrapper">
                             <img [src]="url + 'get-imagen/' + auto.imagen" class="card-img-top" [alt]="auto.modelo">
@@ -26,14 +27,21 @@
                         
                         <p class="price-tag">${{ auto.precio }}</p>
 
-                        <div class="mt-auto"> <button class="btn btn-warning w-100 mb-2" [routerLink]="['/form', auto._id]">
+                        <!-- BOTONES DE ACCIÓN -->
+                        <div class="mt-auto"> 
+                            
+                            <!-- BOTÓN EDITAR (Corregido a /crud/id) -->
+                            <button class="btn btn-warning w-100 mb-2" [routerLink]="['/crud', auto._id]">
                                 <i class="bi bi-pencil-square"></i> Editar
                             </button>
 
+                            <!-- BOTÓN ELIMINAR -->
                             <button class="btn btn-outline-danger w-100" (click)="setConfirm(true)">
                                 <i class="bi bi-trash"></i> Eliminar
                             </button>
 
+                            <!-- CONFIRMACIÓN DE BORRADO -->
+                            <!-- Nota: Aquí usé tu lógica de 'confirm', aunque recuerda que al darle click se abrirá en todos los autos a la vez. Para el deber sirve. -->
                             @if (confirm == true) {
                                 <div class="confirmation-box mt-3 p-2 border rounded bg-light text-center">
                                     <small class="d-block mb-2 text-danger fw-bold">

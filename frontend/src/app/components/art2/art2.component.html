@@ -1,22 +1,35 @@
 <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
   
-  @for (car of products; track car.name) {
+  @for (auto of productos; track auto._id) {
     <div class="col">
       <div class="card h-100 shadow-sm car-card">
         
         <div class="img-wrapper">
-          <img [src]="car.image" class="card-img-top" [alt]="car.name">
+          <!-- Si tiene imagen, mostramos la del servidor -->
+          @if (auto.imagen) {
+            <img [src]="url + 'get-imagen/' + auto.imagen" class="card-img-top" [alt]="auto.modelo">
+          } 
+          <!-- Si NO tiene imagen, mostramos una genérica (opcional) -->
+          @else {
+            <img src="assets/img/default-car.png" class="card-img-top" alt="Sin imagen">
+          }
         </div>
 
         <div class="card-body d-flex flex-column">
-          <h5 class="card-title fw-bold">{{ car.name }}</h5>
-          <h6 class="card-subtitle mb-2 text-danger fw-bold">{{ car.price }}</h6>
+          <!-- Marca y Modelo -->
+          <h5 class="card-title fw-bold text-uppercase">{{ auto.marca }} {{ auto.modelo }}</h5>
           
-          <p class="card-text text-muted flex-grow-1">
-            {{ car.description }}
-          </p>
+          <!-- Precio -->
+          <h6 class="card-subtitle mb-3 text-danger fw-bold fs-5">${{ auto.precio }}</h6>
           
-          <button class="btn btn-outline-dark mt-3 w-100">
+          <!-- Detalles (Año y Kilometraje) -->
+          <div class="card-text text-muted flex-grow-1 mb-3">
+            <p class="mb-1"><i class="bi bi-calendar-event"></i> Año: {{ auto.anio }}</p>
+            <p class="mb-0"><i class="bi bi-speedometer2"></i> Recorrido: {{ auto.kilometraje }}</p>
+          </div>
+          
+          <!-- Botón de Acción -->
+          <button class="btn btn-outline-dark mt-auto w-100">
             <i class="bi bi-cart-plus"></i> Cotizar
           </button>
         </div>

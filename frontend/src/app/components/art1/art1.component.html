@@ -1,32 +1,45 @@
 <div id="carouselExampleCaptions" class="carousel slide header-carousel" data-bs-ride="carousel">
   
+  <!-- 1. INDICADORES (Puntitos) -->
   <div class="carousel-indicators">
-    @for (slide of carSlides; track slide.title; let i = $index) {
-      <button 
-        type="button" 
-        data-bs-target="#carouselExampleCaptions" 
-        [attr.data-bs-slide-to]="i" 
-        [class.active]="i === 0" 
-        [attr.aria-current]="i === 0 ? 'true' : null"
-        [attr.aria-label]="'Slide ' + (i + 1)">
-      </button>
+    @for (auto of productos; track auto._id; let i = $index) {
+      <!-- Solo creamos indicador si tiene imagen -->
+      @if (auto.imagen) {
+        <button 
+          type="button" 
+          data-bs-target="#carouselExampleCaptions" 
+          [attr.data-bs-slide-to]="i" 
+          [class.active]="i === 0" 
+          [attr.aria-current]="i === 0 ? 'true' : null"
+          [attr.aria-label]="'Slide ' + (i + 1)">
+        </button>
+      }
     }
   </div>
 
+  <!-- 2. LAS IMÁGENES (Slides) -->
   <div class="carousel-inner">
-    @for (slide of carSlides; track slide.title; let i = $index) {
-      <div class="carousel-item" [class.active]="i === 0" data-bs-interval="5000"> <img [src]="slide.imageUrl" class="d-block w-100 carousel-img" [alt]="slide.altText">
-        
-        <div class="carousel-caption d-none d-md-block">
-          <h2 class="display-4 fw-bold">{{ slide.title }}</h2>
-          <p class="lead">{{ slide.description }}</p>
-          <button class="btn btn-primary btn-lg mt-3">Ver Más</button>
+    @for (auto of productos; track auto._id; let i = $index) {
+      @if (auto.imagen) {
+        <!-- La clase active solo va en el primero (i === 0) -->
+        <div class="carousel-item" [class.active]="i === 0" data-bs-interval="5000">
+          
+          <!-- URL REAL DE LA BASE DE DATOS -->
+          <img [src]="url + 'get-imagen/' + auto.imagen" class="d-block w-100 carousel-img" [alt]="auto.modelo">
+          
+          <div class="carousel-caption d-none d-md-block">
+            <h2 class="display-4 fw-bold">{{ auto.marca }} {{ auto.modelo }}</h2>
+            <p class="lead">Año: {{ auto.anio }} - Recorrido: {{ auto.kilometraje }}</p>
+            <span class="badge bg-danger fs-5">${{ auto.precio }}</span>
+          </div>
+          
+          <div class="overlay"></div>
         </div>
-        <div class="overlay"></div>
-      </div>
+      }
     }
   </div>
 
+  <!-- 3. CONTROLES -->
   <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
     <span class="carousel-control-prev-icon" aria-hidden="true"></span>
     <span class="visually-hidden">Anterior</span>

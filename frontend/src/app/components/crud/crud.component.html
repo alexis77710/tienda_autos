@@ -1,1 +1,111 @@
-<p>crud works!</p>
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+      
+      <!-- TARJETA PRINCIPAL: Usamos clases de Bootstrap (shadow, rounded) para que se vea elegante -->
+      <div class="card shadow-lg border-0 rounded-lg">
+        
+        <!-- CABECERA: Fondo oscuro y texto blanco para resaltar el título -->
+        <div class="card-header bg-dark text-white text-center py-4">
+          <!-- {{ titulo }} cambia dinámicamente entre "Nuevo Vehículo" o "Editar Vehículo" -->
+          <h3 class="mb-0 fw-bold"><i class="bi bi-car-front"></i> {{ titulo }}</h3>
+        </div>
+        
+        <div class="card-body p-5">
+          
+          <!-- INICIO DEL FORMULARIO -->
+          <!-- #productoForm="ngForm": Convierte este HTML en un formulario de Angular para poder validarlo -->
+          <!-- (ngSubmit): Al dar Enter o clic en Guardar, ejecuta la función guardarProducto() -->
+          <form #productoForm="ngForm" (ngSubmit)="guardarProducto(productoForm)">
+
+            <!-- CAMPO: MARCA -->
+            <div class="form-floating mb-3">
+              <!-- [(ngModel)]: CONEXIÓN BIDIRECCIONAL. Lo que escribas aquí se guarda directo en la variable producto.marca del TS -->
+              <!-- name="marca": Obligatorio para que funcione el ngModel -->
+              <!-- #marca="ngModel": Nos permite saber si este campo específico tiene errores -->
+              <input type="text" class="form-control" name="marca" #marca="ngModel" 
+                     [(ngModel)]="producto.marca" required placeholder="Ej: Toyota">
+              <label>Marca</label>
+              
+              <!-- VALIDACIÓN VISUAL: Solo muestra el error si el usuario tocó el campo (touched) y lo dejó mal (!valid) -->
+              @if (marca.touched && !marca.valid) {
+                <small class="text-danger">La marca es obligatoria</small>
+              }
+            </div>
+
+            <!-- CAMPO: MODELO -->
+            <div class="form-floating mb-3">
+              <input type="text" class="form-control" name="modelo" #modelo="ngModel" 
+                     [(ngModel)]="producto.modelo" required placeholder="Ej: Fortuner">
+              <label>Modelo</label>
+              <!-- Usamos la nueva sintaxis @if de Angular 19 en lugar de *ngIf -->
+              @if (modelo.touched && !modelo.valid) {
+                <small class="text-danger">El modelo es obligatorio</small>
+              }
+            </div>
+
+            <!-- FILA DOBLE (PRECIO Y AÑO) -->
+            <div class="row g-2 mb-3">
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <input type="number" class="form-control" name="precio" #precio="ngModel" 
+                         [(ngModel)]="producto.precio" required placeholder="Precio">
+                  <label>Precio ($)</label>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-floating">
+                  <!-- Adaptamos esto: El inge tenía RAM, nosotros usamos AÑO para autos -->
+                  <input type="number" class="form-control" name="anio" #anio="ngModel" 
+                         [(ngModel)]="producto.anio" required placeholder="Año">
+                  <label>Año</label>
+                </div>
+              </div>
+            </div>
+
+            <!-- CAMPO: KILOMETRAJE -->
+            <div class="form-floating mb-4">
+              <!-- Adaptamos esto: El inge tenía ROM, nosotros usamos Kilometraje -->
+              <input type="text" class="form-control" name="kilometraje" #kilometraje="ngModel" 
+                     [(ngModel)]="producto.kilometraje" required placeholder="0 km">
+              <label>Kilometraje</label>
+            </div>
+
+            <!-- SECCIÓN DE FOTOGRAFÍA -->
+            <div class="mb-4">
+              <label class="form-label fw-bold text-secondary">Fotografía del Vehículo</label>
+              
+              <!-- PREVISUALIZACIÓN: Solo se muestra si el producto ya tiene una imagen guardada (Modo Editar) -->
+              @if (producto.imagen) {
+                <div class="mb-2 text-center img-preview-container">
+                  <!-- Concatenamos la URL del backend con el nombre de la imagen -->
+                  <img [src]="url + 'get-imagen/' + producto.imagen" class="img-thumbnail" style="max-height: 150px;">
+                  <p class="text-muted small">Imagen actual</p>
+                </div>
+              }
+
+              <!-- INPUT DE ARCHIVO: Cuando eliges una foto, dispara el evento (change) -->
+              <input type="file" #archivoImagen class="form-control" (change)="imagenChangeEvent($event)">
+            </div>
+
+            <!-- BOTÓN DE GUARDAR -->
+            <div class="d-grid gap-2">
+              <!-- [disabled]: El botón se bloquea (se pone gris) si el formulario NO es válido -->
+              <input type="submit" value="{{ titulo }}" class="btn btn-primary btn-lg" 
+                     [disabled]="!productoForm.form.valid">
+            </div>
+
+          </form>
+        </div>
+        
+        <!-- PIE DE TARJETA: Botón para regresar sin guardar -->
+        <div class="card-footer text-center py-3 bg-light">
+          <a routerLink="/productos" class="text-decoration-none text-secondary">
+            <i class="bi bi-arrow-left"></i> Volver al listado
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

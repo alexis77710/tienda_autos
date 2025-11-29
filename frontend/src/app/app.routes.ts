@@ -2,25 +2,21 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { ProductosComponent } from './components/productos/productos.component';
-// 1. IMPORTANTE: Importamos el componente del formulario
-import { FormComponent } from './components/form/form.component'; 
+import { CrudComponent } from './components/crud/crud.component';
 
 export const routes: Routes = [
+  // Redirección inicial
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   
+  // Páginas principales
   { path: 'home', component: HomeComponent },
-  
-  // Catálogo de autos
   { path: 'productos', component: ProductosComponent },
-  
-  // Contacto
-  { path: 'contacto', component: ContactComponent },
+  { path: 'contact', component: ContactComponent },
   
   // --- RUTAS DEL FORMULARIO (CRUD) ---
+  // Ruta para CREAR (vacía)
+  { path: 'crud', component: CrudComponent },
   
-  // 2. Ruta para CREAR (Cuando das clic en "Agregar Nuevo Auto")
-  { path: 'form', component: FormComponent },
-
-  // 3. Ruta para EDITAR (Cuando das clic en "Editar" un auto específico)
-  { path: 'form/:id', component: FormComponent },
+  // Ruta para EDITAR (con ID)
+  { path: 'crud/:id', component: CrudComponent },
 ];

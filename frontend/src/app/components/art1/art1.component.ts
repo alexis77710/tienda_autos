@@ -1,45 +1,58 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'; // <--- IMPORTANTE para que funcionen ciertas cosas básicas
-
-// 1. Definimos una "interfaz" (un molde) para saber qué datos tiene cada slide
-interface CarSlide {
-  imageUrl: string;
-  title: string;
-  description: string;
-  altText: string;
-}
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common'; 
+import { ProductoService } from '../../services/producto.service';
+import { Producto } from '../../models/producto';
+import { Global } from '../../services/global';
 
 @Component({
   selector: 'app-art1',
-  standalone: true,
-  imports: [CommonModule], // Importamos CommonModule por si acaso, aunque con @for a veces no es indispensable
+  standalone: true, // Angular 19+: Indica que el componente no necesita un NgModule
+  imports: [CommonModule], // Importamos esto para poder usar *ngFor, *ngIf o pipes en el HTML
   templateUrl: './art1.component.html',
-  styleUrl: './art1.component.css'
+  styleUrl: './art1.component.css',
+  providers: [ProductoService] // Cargamos una instancia del servicio solo para este componente
 })
-export class Art1Component {
+export class Art1Component implements OnInit {
   
-  // 2. Creamos la lista de carros para el carrusel.
-  // Estoy usando imágenes de prueba de Unsplash. 
-  // ¡Luego tú cambias estas URLs por las fotos reales de tus autos!
-  carSlides: CarSlide[] = [
-    {
-      imageUrl: 'https://images.unsplash.com/photo-1494976388531-d1058494cdd8?q=80&w=1470&auto=format&fit=crop',
-      title: 'Lujo Deportivo',
-      description: 'Conoce el nuevo modelo 2025. Potencia y elegancia en cada curva.',
-      altText: 'Auto deportivo rojo en carretera'
-    },
-    {
-      imageUrl: 'https://images.unsplash.com/photo-1567818735868-e71b99ab4a12?q=80&w=1470&auto=format&fit=crop',
-      title: 'La Mejor SUV Familiar',
-      description: 'Espacio, seguridad y tecnología para todos tus viajes.',
-      altText: 'SUV azul en la ciudad'
-    },
-    {
-      imageUrl: 'https://images.unsplash.com/photo-1552519507-da3b142c6e3d?q=80&w=1470&auto=format&fit=crop',
-      title: 'Ofertas del Mes',
-      description: 'Aprovecha nuestros planes de financiamiento con tasa 0%.',
-      altText: 'Auto clásico moderno en exhibición'
-    }
-  ];
+  // Array vacío donde guardaremos los autos que lleguen del backend
+  public productos: Producto[] = [];
+  // URL base de la API (ej: http://localhost:3700/api/) para construir las rutas de las imágenes
+  public url: string;
 
+  constructor(
+    // Inyección de dependencias: Traemos el servicio para poder usar sus métodos
+    private _productoService: ProductoService
+  ) {
+    this.url = Global.url; // Asignamos la URL global a la propiedad de la clase
+  }
+
+  // ngOnInit se ejecuta automáticamente apenas carga el componente
+  ngOnInit(): void {
+    this.getAutos(); // Inmediatamente pedimos los autos
+  }
+
+  // Método personalizado para llamar al servicio
+  getAutos() {
+    // Nos suscribimos al observable (esperamos la respuesta asíncrona)
+    this._productoService.getProductos().subscribe({
+      next: (response) => {
+        // Si la respuesta trae la propiedad 'productos'
+        if (response.productos) {
+          
+          // AQUÍ OCURRE LA MAGIA:
+          // Llenamos nuestro array local 'this.productos' con los datos de la BD.
+          // El HTML detectará este cambio y actualizará el carrusel automáticamente.
+          this.productos = response.productos; 
+
+          // Tip pro: Si es un carrusel, quizás no quieras mostrar TODOS los autos.
+          // Podrías limitar a los últimos 5 así:
+          // this.productos = response.productos.slice(0, 5);
+        }
+      },
+      error: (error) => {
+        // Si falla la conexión o el backend da error, lo vemos aquí
+        console.log(error);
+      }
+    });
+  }
 }
